@@ -10,6 +10,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+    - name: Find diff
+      run: git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }}
 
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
