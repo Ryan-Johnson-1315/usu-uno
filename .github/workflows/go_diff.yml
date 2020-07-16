@@ -11,8 +11,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: Find diff
-      run: git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }}
+    - name: get changed files
+      run: |
+         echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)"
+
+    - name: echo output
+      run: |
+        echo ${{ steps.getfile.outputs.files }}
 
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
