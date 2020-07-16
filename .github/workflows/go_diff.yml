@@ -1,9 +1,10 @@
- 
 name: Go
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
 
 jobs:
 
@@ -11,22 +12,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    # Checkout the source code
-    - name: 'Checkout source code'
-      uses: actions/checkout@v2
-      with:
-         fetch-depth: 0
-
-    # Check for changes
-    - name: Check for changes
-      id: checkForChanges
-      run: |
-         echo "::set-output name=grepValue::$( git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -c '^proxy' )"
 
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
-        go-version: ^1.13
+        go-version: ^1.14
       id: go
 
     - name: Check out code into the Go module directory
@@ -40,11 +30,10 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-        
-    - name: Test
-      working-directory: server
-      run: go test .
-
     - name: Build
       working-directory: server
       run: go build -v .
+
+    - name: Test
+      working-directory: server
+      run: go test -v .
