@@ -35,7 +35,7 @@ jobs:
     - name: Get dependencies
       working-directory: server
       run: |
-        go get -v -t -d server/
+        go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
@@ -43,8 +43,8 @@ jobs:
         
     - name: Test
       working-directory: server
-      run: go test server/
+      run: go test .
 
     - name: Build
       working-directory: server
-      run: go build -v server/
+      run: go build -v .
