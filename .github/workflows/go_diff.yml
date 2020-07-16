@@ -11,6 +11,21 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+    # Checkout the source code
+    - name: 'Checkout source code'
+      uses: actions/checkout@v2
+      with:
+         fetch-depth: 0
+
+    # Check for changes
+    - name: Check for changes
+      id: checkForChanges
+      run: |
+         echo "::set-output name=grepValue::$( git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -c '^proxy' )"
+
+        
+        
+        
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
@@ -33,16 +48,5 @@ jobs:
     - name: Test
       run: go test .
 
- # Checkout the source code
-    - name: 'Checkout source code'
-      uses: actions/checkout@v2
-      with:
-         fetch-depth: 0
 
-    # Check for changes
-    - name: Check for changes
-      id: checkForChanges
-      run: |
-         echo "::set-output name=grepValue::$( git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -c '^proxy' )"
-         
   
