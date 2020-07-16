@@ -9,6 +9,9 @@ import (
 
 func main() {
 	fmt.Println("USU - UNO v0.0.0")
+	fmt.Println("USU - UNO v0.0.0")
+	fmt.Println("USU - UNO v0.0.0")
+	fmt.Println("USU - UNO v0.0.0")
 
 	// New Echo server
 	e := echo.New()
